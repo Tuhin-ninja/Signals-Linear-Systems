@@ -56,16 +56,17 @@ plt.ylabel("Magnitude")
 plt.grid()
 plt.show()
 
-# Step 4: Identify and Remove Noise Frequencies
+# Step 4: Identify and Keep High Frequencies
 filtered_ft_data = np.zeros((2, num_freqs))
 filtered_ft_data[0] = ft_data[0].copy()
 filtered_ft_data[1] = ft_data[1].copy()
 
-# Filter out high frequencies (e.g., keep only up to 1000 Hz)
-threshold_frequency = 1000
-low_pass_filter = np.abs(frequencies) <= threshold_frequency
-filtered_ft_data[0] *= low_pass_filter
-filtered_ft_data[1] *= low_pass_filter
+# Filter out low frequencies (e.g., keep only frequencies >= threshold_frequency)
+threshold_frequency = 1000  # Set the cutoff frequency for the high-pass filter
+high_pass_filter = np.abs(frequencies) >= threshold_frequency
+filtered_ft_data[0] *= high_pass_filter  # Apply filter to the real part
+filtered_ft_data[1] *= high_pass_filter  # Apply filter to the imaginary part
+
 
 # Step 4.1: Visualize the filtered frequency spectrum
 plt.figure(figsize=(12, 6))
